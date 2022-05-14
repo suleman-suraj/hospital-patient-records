@@ -9,7 +9,7 @@ import axios from 'axios';
 var n=1;
 var totalResults= 0;
 
-class UpdateUser extends Component{
+class UpdatePatient extends Component{
     constructor(props){
         super(props);
 
@@ -23,20 +23,26 @@ class UpdateUser extends Component{
         this.onChangeLname= this.onChangeLname.bind(this);
         this.onChangeAge= this.onChangeAge.bind(this);
         this.onChangeEmail= this.onChangeEmail.bind(this);
-        this.onChangeAbout= this.onChangeAbout.bind(this);
+        this.onChangeTemperature= this.onChangeTemperature.bind(this);
         this.onChangeWeight= this.onChangeWeight.bind(this);
         this.onChangeHeight= this.onChangeHeight.bind(this);
+        this.onChangeAbout= this.onChangeAbout.bind(this);
+        this.onChangeDiagnosis= this.onChangeDiagnosis.bind(this);
+        this.onChangePrescription= this.onChangePrescription.bind(this);
 
         this.state = {
-            persons: [],
+            patients: [],
             fname: "",
             lname: "",
             gender: "",
             age: 0,
             email: "",
-            about: "",
+            Temperature: 0,
             weight: 0,
             height: 0,
+            about: "",
+            diagnosis: "",
+            prescription: "",
             messageUpdate: "",
             totalResult: 0,
             message: ""
@@ -45,27 +51,30 @@ class UpdateUser extends Component{
     }
 
     componentDidMount() {
-        axios.get(`http://hospital-record-backend.herokuapp.com/person/pages`)
-        .then(response => {
-            totalResults= response.data.totalResult;
+        axios
+          .get(`https://misty-tan-overshirt.cyclic.app/patient/pages`)
+          .then((response) => {
+            totalResults = response.data.totalResult;
             this.setState({
-                totalResult: response.data.totalResult
-            })
-        }).catch((error) => {
+              totalResult: response.data.totalResult,
+            });
+          })
+          .catch((error) => {
             console.log(error);
-        });
+          });
 
 
 
-        axios.get(`http://hospital-record-backend.herokuapp.com/person/pages?page=1`)
-        .then(response => {
+        axios
+          .get(`https://misty-tan-overshirt.cyclic.app/patient/pages?page=1`)
+          .then((response) => {
             this.setState({
-                "persons": response.data.data,
-
-            })
-        }).catch((error) => {
+              patients: response.data.data,
+            });
+          })
+          .catch((error) => {
             console.log(error);
-        });
+          });
     }
 
     submitUpdate(e){
@@ -93,6 +102,9 @@ class UpdateUser extends Component{
                 var id6= "id6" +e.target.id.substring(3);
                 var id7= "id7" +e.target.id.substring(3);
                 var id8= "id8" +e.target.id.substring(3);
+                var id9= "id9" +e.target.id.substring(3);
+                var id10= "id10" +e.target.id.substring(3);
+                var id11= "id11" +e.target.id.substring(3);
                 
                 this.setState({
                     fname: document.getElementById(id1).innerHTML,
@@ -100,9 +112,12 @@ class UpdateUser extends Component{
                     gender: document.getElementById(id3).innerHTML,
                     age: document.getElementById(id4).innerHTML,
                     email: document.getElementById(id5).innerHTML,
-                    weight: document.getElementById(id6).innerHTML,
-                    height: document.getElementById(id7).innerHTML,
-                    about: document.getElementById(id8).innerHTML
+                    Temperature: document.getElementById(id6).innerHTML,
+                    weight: document.getElementById(id7).innerHTML,
+                    height: document.getElementById(id8).innerHTML,
+                    about: document.getElementById(id9).innerHTML,
+                    diagnosis: document.getElementById(id10).innerHTML,
+                    prescription: document.getElementById(id11).innerHTML
                 })
                 
             }
@@ -111,24 +126,33 @@ class UpdateUser extends Component{
 
             //e.preventDefault();
 
-            const user={
+            const patient={
 
                 fname: this.state.fname,
                 lname: this.state.lname,
                 gender: this.state.gender,
                 age: this.state.age,
                 email: this.state.email,
+                temperature: this.state.temperature,
                 weight: this.state.weight,
                 height: this.state.height,
-                about: this.state.about
+                about: this.state.about,
+                diagnosis: this.state.diagnosis,
+                prescription: this.state.prescription
             }
     
-            console.log(user);
+            console.log(patient);
 
             //e.target.id.substring(3);
     
-            axios.put(`http://hospital-record-backend.herokuapp.com/person/${e.target.id.substring(3)}`, user)
-                .then(res => console.log(res.data));
+            axios
+              .put(
+                `https://misty-tan-overshirt.cyclic.app/patient/${e.target.id.substring(
+                  3
+                )}`,
+                patient
+              )
+              .then((res) => console.log(res.data));
     
             
             this.setState({
@@ -194,9 +218,10 @@ class UpdateUser extends Component{
             email: e.target.innerHTML
         })
     }
-    onChangeAbout(e){
+    onChangeTemperature(e){
+        console.log("ONCHANGE TEMPERATURE CALLED");
         this.setState({
-            about: e.target.innerHTML
+            temperature: e.target.innerHTML
         })
     }
     onChangeWeight(e){
@@ -207,6 +232,21 @@ class UpdateUser extends Component{
     onChangeHeight(e){
         this.setState({
             height: e.target.innerHTML
+        })
+    }
+    onChangeAbout(e){
+        this.setState({
+            about: e.target.innerHTML
+        })
+    }
+    onChangeDiagnosis(e){
+        this.setState({
+            diagnosis: e.target.innerHTML
+        })
+    }
+    onChangePrescription(e){
+        this.setState({
+            prescription: e.target.innerHTML
         })
     }
 
@@ -225,15 +265,15 @@ class UpdateUser extends Component{
             })
         }
         //db.comments.find().skip(pagesize * (n-1)).limit(pagesize);
-        axios.get(`http://hospital-record-backend.herokuapp.com/person/pages?page=${n}`)
-          .then(response => {
-              this.setState({
-                  "persons": response.data.data,
-
-
-              })
-          }).catch((error) => {
-              console.log(error);
+        axios
+          .get(`https://misty-tan-overshirt.cyclic.app/patient/pages?page=${n}`)
+          .then((response) => {
+            this.setState({
+              patients: response.data.data,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
           });
     }
 
@@ -250,16 +290,16 @@ class UpdateUser extends Component{
             })
         }
         //db.comments.find().skip(pagesize * (n-1)).limit(pagesize);
-        axios.get(`http://hospital-record-backend.herokuapp.com/person/pages?page=${n}`)
-        .then(response => {
+        axios
+          .get(`https://misty-tan-overshirt.cyclic.app/patient/pages?page=${n}`)
+          .then((response) => {
             this.setState({
-                "persons": response.data.data,
-
-
-            })
-        }).catch((error) => {
+              patients: response.data.data,
+            });
+          })
+          .catch((error) => {
             console.log(error);
-        });
+          });
     }
 
 
@@ -286,26 +326,33 @@ class UpdateUser extends Component{
                             <th>Gender</th>
                             <th>Age</th>
                             <th>Email Id</th>
+                            <th>Temperature (Celsius)</th>
                             <th>Weight (KG)</th>
                             <th>Height (Metre)</th>
                             <th>Problems</th>
+                            <th>Diagnosis</th>
+                            <th>Prescription</th>
                         </tr>
 
                             </thead>
                             <tbody>
-                            { this.state.persons.map(person => 
+                            { this.state.patients.map(patient => 
                             <tr>
 
-                                    <td className={"doc" +person._id} id={"id1" +person._id} onBlur={this.onChangeFname} value={this.state.fname} contentEditable="false">{person.fname}</td>
-                                    <td className={"doc" +person._id} id={"id2" +person._id} onBlur={this.onChangeLname} value={this.state.lname} contentEditable="false">{person.lname}</td>
-                                    <td className={"doc" +person._id} id={"id3" +person._id} onBlur={this.onChangeGender} contentEditable="false">{person.gender}</td>
-                                    <td className={"doc" +person._id} id={"id4" +person._id} onBlur={this.onChangeAge} contentEditable="false">{person.age}</td>
-                                    <td className={"doc" +person._id} id={"id5" +person._id} onBlur={this.onChangeEmail} contentEditable="false">{person.email}</td>
-                                    <td className={"doc" +person._id} id={"id6" +person._id} onBlur={this.onChangeWeight} contentEditable="false">{person.weight}</td>
-                                    <td className={"doc" +person._id} id={"id7" +person._id} onBlur={this.onChangeHeight} contentEditable="false">{person.height}</td>
-                                    <td className={"doc" +person._id} id={"id8" +person._id} onBlur={this.onChangeAbout} contentEditable="false">{person.about}</td>
+                                    <td className={"doc" +patient._id} id={"id1" +patient._id} onBlur={this.onChangeFname} value={this.state.fname} contentEditable="false">{patient.fname}</td>
+                                    <td className={"doc" +patient._id} id={"id2" +patient._id} onBlur={this.onChangeLname} value={this.state.lname} contentEditable="false">{patient.lname}</td>
+                                    <td className={"doc" +patient._id} id={"id3" +patient._id} onBlur={this.onChangeGender} contentEditable="false">{patient.gender}</td>
+                                    <td className={"doc" +patient._id} id={"id4" +patient._id} onBlur={this.onChangeAge} contentEditable="false">{patient.age}</td>
+                                    <td className={"doc" +patient._id} id={"id5" +patient._id} onBlur={this.onChangeEmail} contentEditable="false">{patient.email}</td>
+                                    <td className={"doc" +patient._id} id={"id6" +patient._id} onBlur={this.onChangeTemperature} contentEditable="false">{patient.Temperature}</td>
+                                    <td className={"doc" +patient._id} id={"id7" +patient._id} onBlur={this.onChangeWeight} contentEditable="false">{patient.weight}</td>
+                                    <td className={"doc" +patient._id} id={"id8" +patient._id} onBlur={this.onChangeHeight} contentEditable="false">{patient.height}</td>
+                                    <td className={"doc" +patient._id} id={"id9" +patient._id} onBlur={this.onChangeAbout} contentEditable="false">{patient.about}</td>
+                                    <td className={"doc" +patient._id} id={"id10" +patient._id} onBlur={this.onChangeDiagnosis} contentEditable="false">{patient.diagnosis}</td>
+                                    <td className={"doc" +patient._id} id={"id11" +patient._id} onBlur={this.onChangePrescription} contentEditable="false">{patient.prescription}</td>
+                                   
 
-                                    <td><button id={"doc" +person._id} type="button" onClick={this.updateRow} className="btn btn-warning btn-sm">Edit</button></td>
+                                    <td><button id={"doc" +patient._id} type="button" onClick={this.updateRow} className="btn btn-warning btn-sm">Edit</button></td>
                                
                                 
                         </tr>)}
@@ -322,4 +369,4 @@ class UpdateUser extends Component{
     }
 }
 
-export default UpdateUser;
+export default UpdatePatient;

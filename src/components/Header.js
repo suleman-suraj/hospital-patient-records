@@ -6,11 +6,11 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 //import 'bootstrap/dist/css/bootstrap-theme.css';
 import './css/style.css'
 import Home from './Home';
-import AddUser from './AddUser';
-import UpdateUser from './UpdateUser';
-import DeleteUser from './DeleteUser';
-import SearchUser from './SearchUser';
-import AllUsers from './AllUsers';
+import AddPatient from './AddPatient';
+import UpdatePatient from './UpdatePatient';
+import DeletePatient from './DeletePatient';
+import SearchPatient from './SearchPatient';
+import AllPatients from './AllPatients';
 
 
 class Header extends Component{
@@ -93,11 +93,11 @@ class Header extends Component{
 
                     <Route exact strict path='/' component={Home}/>
 
-                    <Route exact strict path='/addpatient' component={AddUser}/>
-                    <Route exact strict path='/allpatients' component={AllUsers}/>
-                    <Route exact strict path='/updatepatient' component={UpdateUser}/>
-                    <Route exact strict path='/deletepatient' component={DeleteUser}/>
-                    <Route exact strict path='/searchpatient' component={() => (<SearchUser search={this.state.search}/>)}/>
+                    <Route exact strict path='/addpatient' component={AddPatient}/>
+                    <Route exact strict path='/allpatients' component={AllPatients}/>
+                    <Route exact strict path='/updatepatient' component={UpdatePatient}/>
+                    <Route exact strict path='/deletepatient' component={DeletePatient}/>
+                    <Route exact strict path='/searchpatient' component={() => (<SearchPatient search={this.state.search}/>)}/>
 
 
                     {/*<Route path='/search/' component={(props) => (<SearchNewsComponent {...props} search={this.state.searchText}/>)}/>

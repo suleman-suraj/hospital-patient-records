@@ -1,12 +1,9 @@
 import React,{Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-//import {Bootstrap, Grid, Row, Col} from 'react-bootstrap';
-//import { Nav} from "react-bootstrap";
-//import 'bootstrap/dist/css/bootstrap-theme.css';
 import './css/style.css';
 import axios from 'axios';
 
-class AddUser extends Component{
+class AddPatient extends Component{
     constructor(props){
         super(props);
 
@@ -17,9 +14,12 @@ class AddUser extends Component{
         this.onChangeGender= this.onChangeGender.bind(this);
         this.onChangeAge= this.onChangeAge.bind(this);
         this.onChangeEmail= this.onChangeEmail.bind(this);
-        this.onChangeAbout= this.onChangeAbout.bind(this);
+        this.onChangeTemperature= this.onChangeTemperature.bind(this);
         this.onChangeWeight= this.onChangeWeight.bind(this);
         this.onChangeHeight= this.onChangeHeight.bind(this);
+        this.onChangeAbout= this.onChangeAbout.bind(this);
+        this.onChangeDiagnosis= this.onChangeDiagnosis.bind(this);
+        this.onChangePrescription = this.onChangePrescription.bind(this);
 
         this.state = {
             fname: "",
@@ -27,10 +27,12 @@ class AddUser extends Component{
             gender: "",
             age: null,
             email: "",
-            about: "",
-            message: "",
+            temperature: null,
             weight: null,
-            height: null
+            height: null,
+            about: "",
+            diagnosis: "",
+            prescription: ""
         }
 
     }
@@ -65,11 +67,12 @@ class AddUser extends Component{
         })
     }
 
-    onChangeAbout(e){
+    onChangeTemperature(e){
         this.setState({
-            about: e.target.value
+            temperature: e.target.value
         })
     }
+
     onChangeWeight(e){
         this.setState({
             weight: e.target.value
@@ -80,31 +83,50 @@ class AddUser extends Component{
             height: e.target.value
         })
     }
+    onChangeAbout(e){
+        this.setState({
+            about: e.target.value
+        })
+    }
+    onChangeDiagnosis(e){
+        this.setState({
+            diagnosis: e.target.value
+        })
+    }
+    onChangeDescription(e){
+        this.setState({
+            description: e.target.value
+        })
+    }
 
     //When the user clicks on submit button
     onSubmit(e){
         e.preventDefault();
 
-        const user={
+        const patient={
             fname: this.state.fname,
             lname: this.state.lname,
             gender: this.state.gender,
             age: this.state.age,
             email: this.state.email,
+            temperature: this.state.temperature,
             weight: this.state.weight,
             height: this.state.height,
-            about: this.state.about
+            about: this.state.about,
+            diagnosis: this.state.diagnosis,
+            prescription: this.state.prescription
         }
 
-        console.log(user);
+        console.log(patient);
 
-        axios.post('http://hospital-record-backend.herokuapp.com/person', user)
-            .then(res => console.log(res.data));
+        axios
+          .post("https://misty-tan-overshirt.cyclic.app/Patient", patient)
+          .then((res) => console.log(res.data));
 
         
         this.setState({
             username: '',
-            message: "User Successfully Added!"
+            message: "Patient Successfully Added!"
         })
 
         //window.location= '/allUsers';
@@ -127,9 +149,12 @@ class AddUser extends Component{
                         <div className="radio">Gender:<br/> <input className="" name="gender" value="Male" onChange={this.onChangeGender} type="radio" /> Male <input className="" name="gender" value="Female" onChange={this.onChangeGender} type="radio" /> Female </div><br/>
                         <div>Age: <input className="form-control mr-sm-2" required value={this.state.age} onChange={this.onChangeAge} type="text" placeholder="Age" /></div><br/>
                         <div>Email: <input className="form-control mr-sm-2" required value={this.state.email} onChange={this.onChangeEmail} type="email" placeholder="Email" /></div><br/>
+                        <div>Temperature: <input className="form-control mr-sm-2" required value={this.state.temperature} onChange={this.onChangeTemperature} type="text" placeholder="Temperature in Celsius" /></div><br/>
                         <div>Weight: <input className="form-control mr-sm-2" required value={this.state.weight} onChange={this.onChangeWeight} type="text" placeholder="Weight in Kg" /></div><br/>
                         <div>Height: <input className="form-control mr-sm-2" required value={this.state.height} onChange={this.onChangeHeight} type="text" placeholder="Height in Metre" /></div><br/>
                         <div>Patient Problems: <input className="form-control mr-sm-2" required value={this.state.about} onChange={this.onChangeAbout} placeholder="Cough, Cold, etc" /></div><br/>
+                        <div>Diagnosis: <input className="form-control mr-sm-2" required value={this.state.diagnosis} onChange={this.onChangeDiagnosis} placeholder="Malaria, Pneumonia, etc" /></div><br/>
+                        <div>Prescription: <input className="form-control mr-sm-2" required value={this.state.prescription} onChange={this.onChangePrescription} placeholder="Amoxicillin as antibiotic, Generic Glucophage a diabetes drug, etc" /></div><br/>
                     
                     <div><button className="btn btn-success" type="submit">Add Patient</button></div>
                     
@@ -143,4 +168,4 @@ class AddUser extends Component{
     }
 }
 
-export default AddUser;
+export default AddPatient;

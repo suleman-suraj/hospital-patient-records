@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './css/style.css';
 import axios from 'axios';
 
-class SearchUser extends Component{
+class SearchPatient extends Component{
 
     constructor(props){
         super(props);
@@ -15,18 +15,18 @@ class SearchUser extends Component{
         this.checkBMI= this.checkBMI.bind(this);
 
         this.state = {
-            persons: []
+            patients: []
         }
 
     }
 
-    checkBMI(person){
-        if( ((person.weight)/(person.height * person.height)) <18.5){
+    checkBMI(patient){
+        if( ((patient.weight)/(patient.height * patient.height)) <18.5){
           return(
               <span style={{color: "red"}}>Under Weight</span>
           )
         }
-        else if( ((person.weight)/(person.height * person.height)) >24.9){
+        else if( ((patient.weight)/(patient.height * patient.height)) >24.9){
           return(
               <span style={{color: "red"}}>Over Weight</span>
           )
@@ -41,18 +41,22 @@ class SearchUser extends Component{
     componentDidMount() {
 
 
-        axios.get(`http://hospital-record-backend.herokuapp.com/person/query?name=${this.props.search}`)
-        .then(response => {
+        axios
+          .get(
+            `https://misty-tan-overshirt.cyclic.app/patient/query?name=${this.props.search}`
+          )
+          .then((response) => {
             this.setState({
-                "persons": response.data.data
-            })
-        }).catch((error) => {
+              patients: response.data.data,
+            });
+          })
+          .catch((error) => {
             console.log(error);
-        });
+          });
     }
 
     checkData(){
-        if((this.state.persons && this.state.persons.length === 0) || this.state.persons== null){
+        if((this.state.patients && this.state.patients.length === 0) || this.state.patients== null){
             //console.log(this.state.persons);
             return (
             <h1>No Patient Found</h1>)
@@ -73,26 +77,32 @@ class SearchUser extends Component{
                             <th>Gender</th>
                             <th>Age</th>
                             <th>Email Id</th>
+                            <th>Temperature (Celsius)</th>
                             <th>Weight (KG)</th>
                             <th>Height (Metre)</th>
                             <th>Problems</th>
+                            <th>Dignosis</th>
+                            <th>Prescription</th>
                             <th>BMI</th>
                             </tr>
                         </thead>
                         <tbody>
                             
-                            { this.state.persons.map(person =>
+                            { this.state.patients.map(patient =>
                                 
                                 <tr>
-                                    <td>{person.fname}</td>
-                                    <td>{person.lname}</td>
-                                    <td>{person.gender}</td>
-                                    <td>{person.age}</td>
-                                    <td>{person.email}</td>
-                                    <td>{person.weight}</td>
-                                    <td>{person.height}</td>
-                                    <td>{person.about}</td>
-                                    <td>{((person.weight)/(person.height * person.height)).toFixed(3)} ({this.checkBMI(person)})</td>
+                                    <td>{patient.fname}</td>
+                                    <td>{patient.lname}</td>
+                                    <td>{patient.gender}</td>
+                                    <td>{patient.age}</td>
+                                    <td>{patient.email}</td>
+                                    <td>{patient.temperature}</td>
+                                    <td>{patient.weight}</td>
+                                    <td>{patient.height}</td>
+                                    <td>{patient.about}</td>
+                                    <td>{patient.diagnosis}</td>
+                                    <td>{patient.prescription}</td>
+                                    <td>{((patient.weight)/(patient.height * patient.height)).toFixed(3)} ({this.checkBMI(patient)})</td>
                             </tr>)}
 
                         </tbody>
@@ -116,4 +126,4 @@ class SearchUser extends Component{
     }
 }
 
-export default SearchUser;
+export default SearchPatient;

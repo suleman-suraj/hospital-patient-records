@@ -9,16 +9,16 @@ import axios from 'axios';
 var n=1;
 var totalResults= 0;
 
-class DeleteUser extends Component{
+class DeletePatient extends Component{
     constructor(props){
         super(props);
 
-        this.deleteUser= this.deleteUser.bind(this);
+        this.deletePatient= this.deletePatient.bind(this);
         this.nextPage= this.nextPage.bind(this);
         this.previousPage= this.previousPage.bind(this);
 
         this.state = {
-            persons: [],
+            patients: [],
             message: "",
             messageDelete: ""
         }
@@ -29,27 +29,30 @@ class DeleteUser extends Component{
 
     componentDidMount() {
 
-        axios.get(`http://hospital-record-backend.herokuapp.com/person/pages`)
-          .then(response => {
-              totalResults= response.data.totalResult;
-              this.setState({
-                  totalResult: response.data.totalResult
-              })
-          }).catch((error) => {
-              console.log(error);
+        axios
+          .get(`https://misty-tan-overshirt.cyclic.app/patient/pages`)
+          .then((response) => {
+            totalResults = response.data.totalResult;
+            this.setState({
+              totalResult: response.data.totalResult,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
           });
 
 
 
-          axios.get(`http://hospital-record-backend.herokuapp.com/person/pages?page=1`)
-          .then(response => {
+          axios
+            .get(`https://misty-tan-overshirt.cyclic.app/patient/pages?page=1`)
+            .then((response) => {
               this.setState({
-                  "persons": response.data.data
-
-              })
-          }).catch((error) => {
+                patients: response.data.data,
+              });
+            })
+            .catch((error) => {
               console.log(error);
-          });
+            });
     }
 
     nextPage() {
@@ -67,15 +70,15 @@ class DeleteUser extends Component{
             })
         }
         //db.comments.find().skip(pagesize * (n-1)).limit(pagesize);
-        axios.get(`http://hospital-record-backend.herokuapp.com/person/pages?page=${n}`)
-          .then(response => {
-              this.setState({
-                  "persons": response.data.data,
-
-
-              })
-          }).catch((error) => {
-              console.log(error);
+        axios
+          .get(`https://misty-tan-overshirt.cyclic.app/patient/pages?page=${n}`)
+          .then((response) => {
+            this.setState({
+              patients: response.data.data,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
           });
     }
 
@@ -92,49 +95,56 @@ class DeleteUser extends Component{
             })
         }
         //db.comments.find().skip(pagesize * (n-1)).limit(pagesize);
-        axios.get(`http://hospital-record-backend.herokuapp.com/person/pages?page=${n}`)
-        .then(response => {
+        axios
+          .get(`https://misty-tan-overshirt.cyclic.app/patient/pages?page=${n}`)
+          .then((response) => {
             this.setState({
-                "persons": response.data.data,
-
-
-            })
-        }).catch((error) => {
+              patients: response.data.data,
+            });
+          })
+          .catch((error) => {
             console.log(error);
-        });
+          });
     }
 
-    async deleteUser(e){
+    async deletePatient(e){
 
         // eslint-disable-next-line no-restricted-globals
         var result = confirm("Want to delete?");
         if (result) {
             //Logic to delete the item
 
-        await axios.delete(`http://hospital-record-backend.herokuapp.com/person/${e.target.id}`)
-        .catch((error) => {console.log(error);})
-        .then(
+        await axios
+          .delete(
+            `https://misty-tan-overshirt.cyclic.app/patient/${e.target.id}`
+          )
+          .catch((error) => {
+            console.log(error);
+          })
+          .then(
+            console.log("deleted")
 
-           console.log("deleted")
-
-           //this.forceUpdate();
-           //window.location= '/deleteuser';
-        )}
+            //this.forceUpdate();
+            //window.location= '/deletepatient';
+          );}
 
         if(result){
-        axios.get('http://hospital-record-backend.herokuapp.com/person/')
-           .then((response) => {
-               
-               this.setState({
-                   "persons": response.data.data,
-                   messageDelete: "Patient Record Successfully Deleted!"
-                },
-                ()=> {console.log(this.state.persons);})
-               
-           }).catch((error) => {
-
-               console.log(error);
-           });
+        axios
+          .get("https://misty-tan-overshirt.cyclic.app/patient/")
+          .then((response) => {
+            this.setState(
+              {
+                patients: response.data.data,
+                messageDelete: "Patient Record Successfully Deleted!",
+              },
+              () => {
+                console.log(this.state.patients);
+              }
+            );
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         }
     }
 
@@ -166,24 +176,30 @@ class DeleteUser extends Component{
                             <th>Gender</th>
                             <th>Age</th>
                             <th>Email Id</th>
+                            <th>Temperation (Celsius)</th>
                             <th>Weight (KG)</th>
                             <th>Height (Metre)</th>
                             <th>Problems</th>
+                            <th>Diagnosis</th>
+                            <th>Prescription</th>
                         </tr>
                         </thead>
                         <tbody>
-                        { this.state.persons.map(person =>
+                        { this.state.patients.map(patient =>
                      <tr>
-                        <td>{person.fname}</td>
-                        <td>{person.lname}</td>
-                        <td>{person.gender}</td>
-                        <td>{person.age}</td>
-                        <td>{person.email}</td>
-                        <td>{person.weight}</td>
-                        <td>{person.height}</td>
-                        <td>{person.about}</td>
+                        <td>{patient.fname}</td>
+                        <td>{patient.lname}</td>
+                        <td>{patient.gender}</td>
+                        <td>{patient.age}</td>
+                        <td>{patient.email}</td>
+                        <td>{patient.temperature}</td>
+                        <td>{patient.weight}</td>
+                        <td>{patient.height}</td>
+                        <td>{patient.about}</td>
+                        <td>{patient.diagnosis}</td>
+                        <td>{patient.prescription}</td>
 
-                        <td><button type="button" id={person._id} onClick={this.deleteUser} className="btn btn-danger btn-sm">Delete</button></td>
+                        <td><button type="button" id={patient._id} onClick={this.deletePatient} className="btn btn-danger btn-sm">Delete</button></td>
                     </tr>)}
                         </tbody>
                     </table></div>
@@ -199,4 +215,4 @@ class DeleteUser extends Component{
     }
 }
 
-export default DeleteUser;
+export default DeletePatient;
