@@ -29,7 +29,7 @@ class AllPatients extends Component{
     componentDidMount() {
 
         axios
-          .get("https://misty-tan-overshirt.cyclic.app/patient/pages")
+          .get("https://apricot-rattlesnake-belt.cyclic.app/patient/pages")
           .then((response) => {
             totalResults = response.data.totalResult;
             this.setState({
@@ -43,7 +43,9 @@ class AllPatients extends Component{
 
 
           axios
-            .get("https://misty-tan-overshirt.cyclic.app/patient/pages?page=1")
+            .get(
+              "https://apricot-rattlesnake-belt.cyclic.app/patient/pages?page=1"
+            )
             .then((response) => {
               this.setState({
                 patients: response.data.data,
@@ -88,7 +90,9 @@ class AllPatients extends Component{
         }
         //db.comments.find().skip(pagesize * (n-1)).limit(pagesize);
         axios
-          .get(`https://misty-tan-overshirt.cyclic.app/patient/pages?page=${n}`)
+          .get(
+            `https://apricot-rattlesnake-belt.cyclic.app/patient/pages?page=${n}`
+          )
           .then((response) => {
             this.setState({
               patients: response.data.data,
@@ -113,7 +117,9 @@ class AllPatients extends Component{
         }
         //db.comments.find().skip(pagesize * (n-1)).limit(pagesize);
         axios
-          .get(`https://misty-tan-overshirt.cyclic.app/patient/pages?page=${n}`)
+          .get(
+            `https://apricot-rattlesnake-belt.cyclic.app/patient/pages?page=${n}`
+          )
           .then((response) => {
             this.setState({
               patients: response.data.data,

@@ -30,7 +30,7 @@ class DeletePatient extends Component{
     componentDidMount() {
 
         axios
-          .get(`https://misty-tan-overshirt.cyclic.app/patient/pages`)
+          .get(`https://apricot-rattlesnake-belt.cyclic.app/patient/pages`)
           .then((response) => {
             totalResults = response.data.totalResult;
             this.setState({
@@ -44,7 +44,9 @@ class DeletePatient extends Component{
 
 
           axios
-            .get(`https://misty-tan-overshirt.cyclic.app/patient/pages?page=1`)
+            .get(
+              `https://apricot-rattlesnake-belt.cyclic.app/patient/pages?page=1`
+            )
             .then((response) => {
               this.setState({
                 patients: response.data.data,
@@ -71,7 +73,9 @@ class DeletePatient extends Component{
         }
         //db.comments.find().skip(pagesize * (n-1)).limit(pagesize);
         axios
-          .get(`https://misty-tan-overshirt.cyclic.app/patient/pages?page=${n}`)
+          .get(
+            `https://apricot-rattlesnake-belt.cyclic.app/patient/pages?page=${n}`
+          )
           .then((response) => {
             this.setState({
               patients: response.data.data,
@@ -96,7 +100,9 @@ class DeletePatient extends Component{
         }
         //db.comments.find().skip(pagesize * (n-1)).limit(pagesize);
         axios
-          .get(`https://misty-tan-overshirt.cyclic.app/patient/pages?page=${n}`)
+          .get(
+            `https://apricot-rattlesnake-belt.cyclic.app/patient/pages?page=${n}`
+          )
           .then((response) => {
             this.setState({
               patients: response.data.data,
@@ -116,7 +122,7 @@ class DeletePatient extends Component{
 
         await axios
           .delete(
-            `https://misty-tan-overshirt.cyclic.app/patient/${e.target.id}`
+            `https://apricot-rattlesnake-belt.cyclic.app/patient/${e.target.id}`
           )
           .catch((error) => {
             console.log(error);
@@ -130,7 +136,7 @@ class DeletePatient extends Component{
 
         if(result){
         axios
-          .get("https://misty-tan-overshirt.cyclic.app/patient/")
+          .get("https://apricot-rattlesnake-belt.cyclic.app/patient/")
           .then((response) => {
             this.setState(
               {

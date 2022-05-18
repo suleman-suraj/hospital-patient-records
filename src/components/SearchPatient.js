@@ -43,7 +43,7 @@ class SearchPatient extends Component{
 
         axios
           .get(
-            `https://misty-tan-overshirt.cyclic.app/patient/query?name=${this.props.search}`
+            `https://apricot-rattlesnake-belt.cyclic.app/patient/query?name=${this.props.search}`
           )
           .then((response) => {
             this.setState({

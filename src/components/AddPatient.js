@@ -93,9 +93,9 @@ class AddPatient extends Component{
             diagnosis: e.target.value
         })
     }
-    onChangeDescription(e){
+    onChangePrescription(e){
         this.setState({
-            description: e.target.value
+            prescription: e.target.value
         })
     }
 
@@ -120,7 +120,10 @@ class AddPatient extends Component{
         console.log(patient);
 
         axios
-          .post("https://misty-tan-overshirt.cyclic.app/Patient", patient)
+          .post(
+            "https://apricot-rattlesnake-belt.cyclic.app/Patient/query/:id",
+            patient
+          )
           .then((res) => console.log(res.data));
 
         
