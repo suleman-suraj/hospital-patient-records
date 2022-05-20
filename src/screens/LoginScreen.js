@@ -1,4 +1,4 @@
-import React,{ useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { UsersContext } from "../context/UsersContext";
 import { Link } from "react-router-dom";
@@ -43,8 +43,7 @@ const LoginScreen = ({ history, location }) => {
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
-      }}
-    >
+      }}>
       <Form
         onSubmit={handleSubmit}
         style={{
@@ -55,8 +54,7 @@ const LoginScreen = ({ history, location }) => {
           gridGap: 20,
           padding: "20px",
           border: "1px solid white",
-        }}
-      >
+        }}>
         <h1 className="text-center">LOG IN</h1>
         <BiUser size={65} style={{ border: "2px solid black" }} />
         <Form.Control
@@ -71,7 +69,9 @@ const LoginScreen = ({ history, location }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button type="submit" >LOGIN</Button>
+        <Button type="submit">
+          <Link to="/">LOGIN</Link>
+        </Button>
         <h5>
           Create new account <Link to="/register"> Sign Up</Link>
         </h5>

@@ -51,16 +51,14 @@ const RegisterUserScreen = () => {
         gridTemplateColumns: "90%",
         justifyContent: "center",
         display: "grid",
-      }}
-    >
+      }}>
       <Row className="justify-content-md-center">
         <Col
           xs={12}
           sm={12}
           md={6}
           lg={6}
-          className="justify-center border border-white mt-5 p-3"
-        >
+          className="justify-center border border-white mt-5 p-3">
           <Form onSubmit={handleSubmit}>
             <Form.Group>
               <h1 className="text-center">SIGN UP</h1>
@@ -126,7 +124,9 @@ const RegisterUserScreen = () => {
                 onChange={(text) => setProfession(text.target.value)}
               />
             </Form.Group>
-            <Button type="submit">SIGN UP</Button>
+            <Button type="submit">
+              <Link to="/">SIGN UP</Link>
+            </Button>
             <h5>
               Already a User? <Link to="/login">Login</Link>
             </h5>
